@@ -1,0 +1,37 @@
+  <h2> Project <% params.name %> </h2>
+              
+  <table>
+      <tbody>
+            <% FOREACH line IN info %>
+               <tr> 
+                   <td align="right"> <% line.0 %> </td> 
+                   <td align="left">  <% line.1 %> </td>
+               </tr>
+            <% END %>
+      </tbody>
+  </table>
+
+  <table>
+      <thead>
+          <tr>
+              <th>Module</th>
+              <th>Prereqs ok</th>
+              <th>Builds</th>
+              <th>Tests</th>
+              <th>Additional information</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% FOREACH date IN runs %>
+              <tr>
+                  <td style="border-bottom:1px dotted #98CAEB"> <% date.0 %> </td>
+                  <td> <% date.1 %> </td>
+                  <td> <% date.2 %> </td>
+                  <td> <% date.3 %> </td>
+                  <td> <% date.4 %> </td>
+              </tr>
+          <% END %>
+          
+
+       </tbody>
+  </table>

@@ -1,0 +1,15 @@
+  
+              
+  <table>
+      <tbody>
+            <% FOREACH project IN projects %>
+               <tr> 
+                   <td align="right"> <% project.0 %> </td> 
+                   <% FOREACH i IN [ 1 .. days_to_show ] %>
+                        <td bgcolor="<% project.$i %>"> 1 </td> 
+                    <% END %>
+               </tr>
+            <% END %>
+      </tbody>
+  </table>
+
