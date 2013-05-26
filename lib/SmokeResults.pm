@@ -12,6 +12,7 @@ use GD;
 our $VERSION = '0.1';
 my $days_to_show = 14;
 my $rect_size    = 15;
+my $path = "/home/smoker/smoke-history";
 
 my %color = (
     ok      => "#00ff00",
@@ -21,21 +22,43 @@ my %color = (
     prereq  => "#ffff00",
 );
 
+sub get_all_dates {
+    my $dates = [];
+    opendir(DIR, $path) or die "can't opendir $path: $!";
+    while (defined(my $file = readdir(DIR))) {
+        if ($file =~ /results-(\d+).json/) {
+            push @$dates, $1;
+        }
+    }
+    closedir(DIR);
+    $dates;
+}
+
 sub filename {
     my $d = shift;
     $d =~ s/-//g;
-    return "/home/smoker/smoke-history/results-$d.json";
+    return $path . "/results-$d.json";
+}
+
+sub pretty_date {
+    my $date = shift;
+    if ($date =~ /(\d\d\d\d)(\d\d)(\d\d)/) {
+        $date = "$1-$2-$3";
+    }
+    $date
 }
 
 sub get_projects {
-    my $report_date = date('2013-05-24');
-    my $date = $report_date;
+    my $dates_list = get_all_dates();
+    my @dates = (reverse sort @$dates_list)[0 .. $days_to_show - 1];
+    # my $report_date = date('2013-05-24');
+    # my $date = $report_date;
     
     my $days_shown = 0;
     my $projects = {};
     my $dates = [];
 
-    while ($days_shown < $days_to_show) {
+    foreach my $date (@dates) {
         my $fn = filename($date);
         last unless -e $fn;
         push @$dates, $date;
@@ -46,11 +69,10 @@ sub get_projects {
         while (my ($project, $result) = each %smoke) {
             $projects->{$project}{$date} = $result;
         }
-    } continue {
-        $days_shown++; $date--
-    };
+        $days_shown++;
+    }
     
-    $projects, $dates, $report_date;
+    $projects, $dates, $dates[0];
 }
 
 sub rank {
@@ -81,7 +103,7 @@ sub get_projects_report {
                             rank($project_hash->{$a}) <=> rank($project_hash->{$b})
                             || $a cmp $b
                          } keys %$project_hash) {
-        my $line = [ "<a href=\"project/$pn\">$pn</a>" ];
+        my $line = [ "<a href=\"/project/$pn\">$pn</a>" ];
         
         for my $date (sort @$dates) {
             my $color = $color{black};
@@ -110,36 +132,23 @@ sub get_projects_report {
     $projects;
 };
 
-sub get_user {
-    my $project = shift;
-    # open my $in, '-|', "panda info " . $project;
-    # while (<$in>) {
-    #     if (/\"Source-url\"\s+\=\>\s+\"(.*)\"/) {
-    #         my $url = $1;
-    #         if ($url =~ m[github.com/(.*?)/]) {
-    #             $in->close();
-    #             return $1;
-    #         }
-    #     }
-    # }
-    # 
-    # $in->close();
-    
-    if ($project eq "Math::Vector") {
-        return "colomon";
-    }
-    
-    "unknown";
-}
-
 sub grep_by_user {
     my $full_projects = shift;
     my $user = shift;
     
+    open my $in, '<', $path . "/authors";
+    my %project_to_author;
+    while (<$in>) {
+        if (/\"(.*)\"\s+\=\>\s+\"(.*)\"/) {
+            $project_to_author{$1} = $2;
+        }
+    }
+    $in->close;
+    
     my $grepped_projects = {};
     
     foreach my $pn (keys %$full_projects) {
-        my $pn_user = get_user($pn);
+        my $pn_user = $project_to_author{$pn} // "unknown";
         $grepped_projects->{$pn} = $full_projects->{$pn} if ($pn_user eq $user);
     }
 
@@ -186,7 +195,7 @@ get '/project/:name' => sub {
     
     my $runs = [];
     foreach my $date (sort { $b cmp $a } keys %$project) {
-        my $line = [$date];
+        my $line = [ pretty_date($date) ];
         my %res = %{$project->{$date}};
         for my $stage (qw(prereq build test)) {
             if (defined $res{$stage}) {
