@@ -15,7 +15,8 @@
             <% FOREACH project IN projects %>
                <tr> 
                    <td style="border-bottom:1px dotted #98CAEB"> <% project.0 %> </td>
-                   <% FOREACH i IN [ 1 .. days_to_show_plus_one ] %>
+                   <td style="border-bottom:1px dotted #98CAEB"> <% project.1 %> </td>
+                   <% FOREACH i IN [ 2 .. days_to_show_plus_one ] %>
                         <td> <% project.$i %> </td> 
                     <% END %>
                </tr>
