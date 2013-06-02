@@ -233,7 +233,7 @@ font-size: 10px;
 }
 .smfmissing    , .smfmissing a     {
     background-color: black;
-    color:            black;
+    color:            #111;
 }
 .smfbuild    , .smfbuild a      {
     background-color: #de8261;
