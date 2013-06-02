@@ -238,7 +238,7 @@ get '/report/:user' => sub {
                            projects => $projects,
                            dates => $short_dates,
                            report_time => $report_dates,
-                           key => $key
+                           key => $key,
                            author => param('user') };
 };
 
