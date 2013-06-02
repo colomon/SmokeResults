@@ -4,23 +4,20 @@ margin: 0;
 margin-bottom: 25px;
 padding: 0;
 background-color: #e7d28d;
-background-image: url("/images/perldancer-bg.jpg");
-background-repeat: no-repeat;
-background-position: top left;
 
 font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
 font-size: 13px;
 color: #333;
 }
 
-table {
+table#main {
 background-color: #f1f3cb;
 position: relative;
 left: 25%;
 border: 1px solid white;
 }
 
-tr:hover td {
+table#main tr:hover td {
 background-color: #e1e39b;
 }
 
