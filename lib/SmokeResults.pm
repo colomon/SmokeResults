@@ -17,7 +17,7 @@ my $path = "/home/smoker/smoke-history";
 my %color = (
     ok      => '<div class="smfok">+</div>',
     black   => '<div class="smfmissing">?</div>',
-    test    => '<div class="smfmissing">-</div>',
+    test    => '<div class="smftest">-</div>',
     build   => '<div class="smfmissing">-</div>',
     prereq  => '<div class="smfmissing">-</div>',
 );
