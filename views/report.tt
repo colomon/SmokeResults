@@ -16,7 +16,7 @@
                <tr> 
                    <td style="border-bottom:1px dotted #98CAEB"> <% project.0 %> </td>
                    <td> author </td>
-                   <% FOREACH i IN [ 2 .. days_to_show+1 ] %>
+                   <% FOREACH i IN [ 2 .. days_to_show_plus_one ] %>
                         <td> <% project.$i %> </td> 
                     <% END %>
                </tr>

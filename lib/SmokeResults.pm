@@ -184,7 +184,7 @@ get '/' => sub {
 get '/report' => sub {
     my ($project_hash, $dates, $report_date, $report_dates, $short_dates) = get_projects();
     my $projects = get_projects_report($project_hash, $dates, $report_date);
-    template 'report' => { days_to_show => $days_to_show,
+    template 'report' => { days_to_show_plus_one => $days_to_show + 1,
                            projects => $projects,
                            dates => $short_dates,
                            report_time => $report_dates };
@@ -194,7 +194,7 @@ get '/report/:user' => sub {
     my ($project_hash, $dates, $report_date, $report_dates, $short_dates) = get_projects();
     $project_hash = grep_by_user($project_hash, param('user'));
     my $projects = get_projects_report($project_hash, $dates, $report_date);
-    template 'report' => { days_to_show => $days_to_show,
+    template 'report' => { days_to_show_plus_one => $days_to_show + 1,
                            projects => $projects,
                            dates => $short_dates,
                            report_time => $report_dates };
