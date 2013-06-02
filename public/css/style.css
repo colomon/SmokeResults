@@ -219,10 +219,10 @@ font-size: 10px;
 }
 .smftest    , .smftest a     {
     background-color: #f00;
-    color:            #333;
+    color:            white;
 }
 .smfmissing    , .smfmissing a     {
-    background-color: #000;
+    background-color: black;
     color:            white;
 }
 .smfbuild    , .smfbuild a      {
@@ -233,7 +233,7 @@ font-size: 10px;
     background-color: #ff0;
     color:            white;
 }
-.smfok, .smftest, .smfmissing, .smfunknown, .smfprereq {
+.smfok, .smftest, .smfmissing, .smfbuild, .smfprereq {
     text-align:         center;
     width:              30px;
     font-weight:        bold;
