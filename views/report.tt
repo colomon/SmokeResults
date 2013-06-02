@@ -4,7 +4,8 @@
   <table>
       <thead>
          <tr> 
-             <th style="border-bottom:1px dotted #98CAEB"> </th>
+             <th> </th>
+             <th align="right"> Date </th>
              <% FOREACH date IN dates %>
                   <th> <% date %> </th> 
               <% END %>
@@ -14,6 +15,7 @@
             <% FOREACH project IN projects %>
                <tr> 
                    <td style="border-bottom:1px dotted #98CAEB"> <% project.0 %> </td>
+                   <td> author </td>
                    <% FOREACH i IN [ 1 .. days_to_show ] %>
                         <td> <% project.$i %> </td> 
                     <% END %>
