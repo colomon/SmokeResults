@@ -2,17 +2,17 @@
 <% IF author %>
 <center><h2>for <% author %></h2></center>
 <% END %>
-<center><h3><% report_time %> </h3></center>
+<center><h3><% first_date %> to <% last_date %> </h3></center>
 
 <table>
     <tbody>
-          <% FOREACH line IN key %>
-             <tr> 
-                 <% FOREACH i IN [ 0 .. 2 ] %>
-                      <td> <% line.$i %> </td> 
-                  <% END %>
-             </tr>
-          <% END %>
+        <% FOREACH line IN key %>
+            <tr> 
+                <% FOREACH i IN [ 0 .. 2 ] %>
+                    <td> <% line.$i %> </td> 
+                <% END %>
+            </tr>
+        <% END %>
     </tbody>
 </table>
 
