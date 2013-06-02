@@ -1,4 +1,7 @@
 <center><h2>Rakudo Module Smoke Results</h2></center>
+<% IF author %>
+<center><h2>for <% author %></h2></center>
+<% END %>
 <center><h3><% report_time %> </h3></center>
 
 <table>
