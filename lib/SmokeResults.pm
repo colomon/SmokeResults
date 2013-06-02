@@ -74,7 +74,7 @@ sub get_projects {
     
     my $short_dates = [];
     foreach my $date (@$dates) {
-        if ($date =~ /\d\d\d\d-\d\d-(\d\d)/) {
+        if ($date =~ /\d\d\d\d\d\d(\d\d)/) {
             push @$short_dates, $1;
         }
     }
