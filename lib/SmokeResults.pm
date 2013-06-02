@@ -15,7 +15,7 @@ my $rect_size    = 15;
 my $path = "/home/smoker/smoke-history";
 
 my %color = (
-    ok      => '<div class="smfimplemented">+</div>',
+    ok      => '<div class="smfok">+</div>',
     black   => '<div class="smfmissing">?</div>',
     test    => '<div class="smfmissing">-</div>',
     build   => '<div class="smfmissing">-</div>',
