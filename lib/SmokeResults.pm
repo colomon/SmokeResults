@@ -139,6 +139,29 @@ sub get_projects_report {
                 for my $state (qw(prereq build test)) {
                     unless ($res->{$state}) {
                         $color = $color{$state};
+                        $failed = 1;
+                        last;
+                    }
+                }
+                unless ($failed) {
+                    $color = $color{ok};
+                }
+            }
+            
+            push @$line, $color;
+        }
+
+        # very hacky way of getting stats on just the most recent day
+        {
+            my $date = $dates->[0];
+            my $color = $color{black};
+            
+            my $res  = $project_hash->{$pn}->{$date};
+            if ($res) {
+                my $failed = 0;
+                for my $state (qw(prereq build test)) {
+                    unless ($res->{$state}) {
+                        $color = $color{$state};
                         $count{$state}++;
                         $failed = 1;
                         last;
@@ -150,9 +173,8 @@ sub get_projects_report {
                 }
             }
             $count{black}++ if ($color eq $color{black});
-            
-            push @$line, $color;
         }
+        
 
         push $projects, $line;
     }
