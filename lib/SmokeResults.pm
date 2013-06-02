@@ -72,7 +72,14 @@ sub get_projects {
         $days_shown++;
     }
     
-    $projects, $dates, $dates[0];
+    my $short_dates = [];
+    foreach my $date (@$dates) {
+        if ($date ~= /\d\d\d\d-\d\d-(\d\d)/) {
+            push @$short_dates, $1;
+        }
+    }
+    
+    $projects, $dates, $dates[-1 + @$dates] . " to " . $dates[0], $short_dates;
 }
 
 sub rank {
@@ -161,18 +168,22 @@ get '/' => sub {
 };
 
 get '/report' => sub {
-    my ($project_hash, $dates, $report_date) = get_projects();
+    my ($project_hash, $dates, $report_dates, $dates) = get_projects();
     my $projects = get_projects_report($project_hash, $dates, $report_date);
     template 'report' => { days_to_show => $days_to_show,
-                           projects => $projects };
+                           projects => $projects,
+                           dates => $dates,
+                           report_time => $report_dates };
 };
 
 get '/report/:user' => sub {
-    my ($project_hash, $dates, $report_date) = get_projects();
+    my ($project_hash, $dates, $report_dates, $dates) = get_projects();
     $project_hash = grep_by_user($project_hash, param('user'));
     my $projects = get_projects_report($project_hash, $dates, $report_date);
     template 'report' => { days_to_show => $days_to_show,
-                           projects => $projects };
+                           projects => $projects,
+                           dates => $dates,
+                           report_time => $report_dates };
 };
 
 get '/project/:name' => sub {

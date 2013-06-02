@@ -1,6 +1,15 @@
-  
-              
+<h2>Rakudo Module Smoke Results</h2> 
+<h3><% report_time %> </h3>
+
   <table>
+      <thead>
+         <tr> 
+             <th style="border-bottom:1px dotted #98CAEB"> </th>
+             <% FOREACH date IN dates %>
+                  <th> <% date %> </th> 
+              <% END %>
+         </tr>
+      </thead>
       <tbody>
             <% FOREACH project IN projects %>
                <tr> 
