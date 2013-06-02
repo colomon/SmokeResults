@@ -72,7 +72,7 @@ sub get_projects {
         $days_shown++;
     }
     
-    my @short_dates = [];
+    my @short_dates;
     foreach my $date (@$dates) {
         if ($date =~ /\d\d\d\d\d\d(\d\d)/) {
             push @short_dates, $1;
