@@ -107,13 +107,19 @@ sub rank {
 
 sub get_projects_report {
     my ($project_hash, $dates, $report_date) = @_;
-    
+
+    my $project_to_author = get_author_hash();
+
     my $projects = [];
     foreach my $pn (sort { 
                             rank($project_hash->{$a}) <=> rank($project_hash->{$b})
                             || $a cmp $b
                          } keys %$project_hash) {
-        my $line = [ "<a href=\"/project/$pn\">$pn</a>" ];
+        my $author = $project_to_author->{$pn} // "Unknown";
+        my $line = [ 
+            "<a href=\"/project/$pn\">$pn</a>", 
+            "<a href=\"report/$author\">$author</a>"
+        ];
         
         for my $date (sort @$dates) {
             my $color = $color{black};
@@ -142,29 +148,34 @@ sub get_projects_report {
     $projects;
 };
 
-sub grep_by_user {
-    my $full_projects = shift;
-    my $user = shift;
-    
+sub get_author_hash {
     open my $in, '<', $path . "/authors";
-    my %project_to_author;
+    my $project_to_author;
     while (<$in>) {
         if (/\"(.*)\"\s+\=\>\s+\"(.*)\"/) {
-            $project_to_author{$1} = $2;
+            $project_to_author->{$1} = $2;
         }
     }
     $in->close;
     
+    $project_to_author;
+}
+
+sub grep_by_user {
+    my $full_projects = shift;
+    my $user = shift;
+    
+    my $project_to_author = get_author_hash();
+    
     my $grepped_projects = {};
     
     foreach my $pn (keys %$full_projects) {
-        my $pn_user = $project_to_author{$pn} // "unknown";
+        my $pn_user = $project_to_author->{$pn} // "unknown";
         $grepped_projects->{$pn} = $full_projects->{$pn} if ($pn_user eq $user);
     }
 
     $grepped_projects;
 }
-
 
 get '/' => sub {
     template 'index';
