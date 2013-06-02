@@ -15,11 +15,11 @@ my $rect_size    = 15;
 my $path = "/home/smoker/smoke-history";
 
 my %color = (
-    ok      => '<div class="smfok">+</div>',
+    ok      => '<div class="smfok">P</div>',
     black   => '<div class="smfmissing">?</div>',
-    test    => '<div class="smftest">-</div>',
-    build   => '<div class="smfbuild">-</div>',
-    prereq  => '<div class="smfprereq">-</div>',
+    test    => '<div class="smftest">T</div>',
+    build   => '<div class="smfbuild">B</div>',
+    prereq  => '<div class="smfprereq">P</div>',
 );
 
 sub get_all_dates {

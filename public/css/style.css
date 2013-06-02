@@ -13,8 +13,9 @@ color: #333;
 table#main {
 background-color: #f1f3cb;
 position: relative;
-left: 25%;
 border: 1px solid white;
+margin-left:auto; 
+margin-right:auto;
 }
 
 table#main tr:hover td {
