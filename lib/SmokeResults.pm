@@ -184,7 +184,12 @@ sub get_projects_report {
     
     my $key = [];
     foreach my $k ("ok", "test", "build", "prereq", "black") {
-        push @$key, [ $color{$k}, $explanation{$k}, $count{$dates[0]}{$k} // 0, $count{$dates[#$dates]}{$k} // 0 ];
+        push @$key, [ 
+            $color{$k}, 
+            $explanation{$k}, 
+            $count{$dates[0]}{$k} // 0, 
+            $count{$dates[$#dates]}{$k} // 0 
+        ];
     }
     
     $projects, $key;
