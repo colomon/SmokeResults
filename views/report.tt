@@ -4,9 +4,9 @@
       <tbody>
             <% FOREACH project IN projects %>
                <tr> 
-                   <td align="right"> <% project.0 %> </td> 
+                   <td style="border-bottom:1px dotted #98CAEB"> <% project.0 %> </td>
                    <% FOREACH i IN [ 1 .. days_to_show ] %>
-                        <td bgcolor="<% project.$i %>"> 1 </td> 
+                        <td> <% project.$i %> </td> 
                     <% END %>
                </tr>
             <% END %>
