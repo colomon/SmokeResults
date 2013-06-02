@@ -72,14 +72,17 @@ sub get_projects {
         $days_shown++;
     }
     
-    my $short_dates = [];
+    my @short_dates = [];
     foreach my $date (@$dates) {
         if ($date =~ /\d\d\d\d\d\d(\d\d)/) {
-            shift @$short_dates, $1;
+            push @short_dates, $1;
         }
     }
     
-    $projects, $dates, $dates[0], $dates[-1 + @$dates] . " to " . $dates[0], $short_dates;
+    my $short_dates = [ reverse @short_dates ];
+    
+    
+    $projects, $dates, $dates[0], pretty_date($dates[-1 + @$dates]) . " to " . pretty_date($dates[0]), $short_dates;
 }
 
 sub rank {
