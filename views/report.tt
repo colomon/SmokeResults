@@ -5,10 +5,18 @@
 <center><h3><% first_date %> to <% last_date %> </h3></center>
 
 <table>
+    <thead>
+        <tr> 
+            <td>  </td> 
+            <td>  </td> 
+            <td> <% first_date %> </td> 
+            <td> <% last_date %> </td> 
+        </tr>
+    </thead>
     <tbody>
         <% FOREACH line IN key %>
             <tr> 
-                <% FOREACH i IN [ 0 .. 2 ] %>
+                <% FOREACH i IN [ 0 .. 3 ] %>
                     <td> <% line.$i %> </td> 
                 <% END %>
             </tr>

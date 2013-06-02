@@ -139,49 +139,52 @@ sub get_projects_report {
                 for my $state (qw(prereq build test)) {
                     unless ($res->{$state}) {
                         $color = $color{$state};
+                        $count{$date}{$state}++;
                         $failed = 1;
                         last;
                     }
                 }
                 unless ($failed) {
                     $color = $color{ok};
+                    $count{$date}{ok}++;
                 }
             }
             
+            $count{$date}{black}++ if ($color eq $color{black});
             push @$line, $color;
         }
 
-        # very hacky way of getting stats on just the most recent day
-        {
-            my $date = $dates->[0];
-            my $color = $color{black};
-            
-            my $res  = $project_hash->{$pn}->{$date};
-            if ($res) {
-                my $failed = 0;
-                for my $state (qw(prereq build test)) {
-                    unless ($res->{$state}) {
-                        $color = $color{$state};
-                        $count{$state}++;
-                        $failed = 1;
-                        last;
-                    }
-                }
-                unless ($failed) {
-                    $color = $color{ok};
-                    $count{ok}++;
-                }
-            }
-            $count{black}++ if ($color eq $color{black});
-        }
-        
+        # # very hacky way of getting stats on just the most recent day
+        # {
+        #     my $date = $dates->[0];
+        #     my $color = $color{black};
+        #     
+        #     my $res  = $project_hash->{$pn}->{$date};
+        #     if ($res) {
+        #         my $failed = 0;
+        #         for my $state (qw(prereq build test)) {
+        #             unless ($res->{$state}) {
+        #                 $color = $color{$state};
+        #                 $count{$state}++;
+        #                 $failed = 1;
+        #                 last;
+        #             }
+        #         }
+        #         unless ($failed) {
+        #             $color = $color{ok};
+        #             $count{ok}++;
+        #         }
+        #     }
+        #     $count{black}++ if ($color eq $color{black});
+        # }
+        # 
 
         push $projects, $line;
     }
     
     my $key = [];
     foreach my $k ("ok", "test", "build", "prereq", "black") {
-        push @$key, [ $color{$k}, $explanation{$k}, $count{$k} // 0 ];
+        push @$key, [ $color{$k}, $explanation{$k}, $count{$dates[0]}{$k} // 0, $count{$dates[#$dates]}{$k} // 0 ];
     }
     
     $projects, $key;
