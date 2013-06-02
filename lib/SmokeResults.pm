@@ -187,8 +187,8 @@ sub get_projects_report {
         push @$key, [ 
             $color{$k}, 
             $explanation{$k}, 
-            $count{$dates[0]}{$k} // 0, 
-            $count{$dates[$#dates]}{$k} // 0 
+            $count{$dates->[0]}{$k} // 0, 
+            $count{$dates->[-1]}{$k} // 0 
         ];
     }
     
