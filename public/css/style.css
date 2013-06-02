@@ -225,11 +225,15 @@ font-size: 10px;
     background-color: #000;
     color:            white;
 }
-.smfunknown    , .smfunknown a      {
-    background-color: #ccc;
+.smfbuild    , .smfbuild a      {
+    background-color: #800;
     color:            white;
 }
-.smfok, .smfpartial, .smfmissing, .smfunknown {
+.smfprereq    , .smfprereq a      {
+    background-color: #ff0;
+    color:            white;
+}
+.smfok, .smftest, .smfmissing, .smfunknown, .smfprereq {
     text-align:         center;
     width:              30px;
     font-weight:        bold;

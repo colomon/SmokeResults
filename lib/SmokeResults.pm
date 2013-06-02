@@ -18,8 +18,8 @@ my %color = (
     ok      => '<div class="smfok">+</div>',
     black   => '<div class="smfmissing">?</div>',
     test    => '<div class="smftest">-</div>',
-    build   => '<div class="smfmissing">-</div>',
-    prereq  => '<div class="smfmissing">-</div>',
+    build   => '<div class="smfbuild">-</div>',
+    prereq  => '<div class="smfprereq">-</div>',
 );
 
 sub get_all_dates {
