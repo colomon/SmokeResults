@@ -15,11 +15,19 @@ my $rect_size    = 15;
 my $path = "/home/smoker/smoke-history";
 
 my %color = (
-    ok      => '<div class="smfok">P</div>',
+    ok      => '<div class="smfok">✓</div>',
     black   => '<div class="smfmissing">?</div>',
     test    => '<div class="smftest">T</div>',
     build   => '<div class="smfbuild">B</div>',
     prereq  => '<div class="smfprereq">P</div>',
+);
+
+my %explanation = (
+    ok      => 'Passes all tests',
+    black   => 'No info available',
+    test    => 'Tests fail',
+    build   => 'Build fails',
+    prereq  => 'Prerequisites failing',
 );
 
 sub get_all_dates {
@@ -111,6 +119,7 @@ sub get_projects_report {
     my $project_to_author = get_author_hash();
 
     my $projects = [];
+    my %count;
     foreach my $pn (sort { 
                             rank($project_hash->{$a}) <=> rank($project_hash->{$b})
                             || $a cmp $b
@@ -130,14 +139,17 @@ sub get_projects_report {
                 for my $state (qw(prereq build test)) {
                     unless ($res->{$state}) {
                         $color = $color{$state};
+                        $count{$state}++;
                         $failed = 1;
                         last;
                     }
                 }
                 unless ($failed) {
                     $color = $color{ok};
+                    $count{ok}++;
                 }
             }
+            $count{black}++ if ($color eq $color{black});
             
             push @$line, $color;
         }
@@ -145,7 +157,12 @@ sub get_projects_report {
         push $projects, $line;
     }
     
-    $projects;
+    my $key = [];
+    foreach my $k ("ok", "test", "build", "prereq", "black") {
+        push @$key, [ $color{$k}, $explanation{$k}, $count{$k} // 0 ];
+    }
+    
+    $projects, $key;
 };
 
 sub get_author_hash {
@@ -183,21 +200,23 @@ get '/' => sub {
 
 get '/report' => sub {
     my ($project_hash, $dates, $report_date, $report_dates, $short_dates) = get_projects();
-    my $projects = get_projects_report($project_hash, $dates, $report_date);
+    my ($projects, $key) = get_projects_report($project_hash, $dates, $report_date);
     template 'report' => { days_to_show_plus_one => $days_to_show + 1,
                            projects => $projects,
                            dates => $short_dates,
-                           report_time => $report_dates };
+                           report_time => $report_dates,
+                           key => $key };
 };
 
 get '/report/:user' => sub {
     my ($project_hash, $dates, $report_date, $report_dates, $short_dates) = get_projects();
     $project_hash = grep_by_user($project_hash, param('user'));
-    my $projects = get_projects_report($project_hash, $dates, $report_date);
+    my ($projects, $key) = get_projects_report($project_hash, $dates, $report_date);
     template 'report' => { days_to_show_plus_one => $days_to_show + 1,
                            projects => $projects,
                            dates => $short_dates,
-                           report_time => $report_dates };
+                           report_time => $report_dates,
+                           key => $key };
 };
 
 get '/project/:name' => sub {
