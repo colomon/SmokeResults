@@ -256,8 +256,9 @@ get '/project/:name' => sub {
     open my $in, '-|', "panda info " . param('name');
     my $lines = [];
     while (<$in>) {
-        if (/\"(.*)\"\s+\=\>\s+\"(.*)\"/) {
+        if (/^(.*?)\:\s+(.*)$/) {
             my $data_name = $1;
+            next if $data_name eq "State";
             my $data = $2;
             if ($data =~ m/git:(.*).git/) {
                 $data = "<a href=\"http:$1\"> $data </a>";
