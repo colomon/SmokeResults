@@ -1,18 +1,21 @@
 package SmokeResults;
 use Dancer ':syntax';
 
+use utf8;
 use 5.014;
 use warnings;
 use autodie;
 
 use JSON qw/decode_json/;
 use Date::Simple qw/date today/;;
+use LWP::Simple ();
+use Encode qw(decode_utf8);
 use GD;
 
 our $VERSION = '0.1';
 my $days_to_show = 14;
 my $rect_size    = 15;
-my $path = "/home/smoker/smoke-history";
+my $path = $ENV{SMOKE_HISTORY_PATH} // "$ENV{HOME}/smoke-history";
 
 my %color = (
     ok      => '<div class="smfok">✓</div>',
@@ -179,7 +182,7 @@ sub get_projects_report {
         # }
         # 
 
-        push $projects, $line;
+        push @$projects, $line;
     }
     
     my $key = [];
@@ -225,7 +228,7 @@ sub grep_by_user {
 }
 
 get '/' => sub {
-    template 'index';
+    redirect '/report';
 };
 
 get '/report' => sub {
@@ -253,20 +256,27 @@ get '/report/:user' => sub {
 };
 
 get '/project/:name' => sub {
-    open my $in, '-|', "panda info " . param('name');
-    my $lines = [];
-    while (<$in>) {
-        if (/^(.*?)\:\s+(.*)$/) {
-            my $data_name = $1;
-            next if $data_name eq "State";
-            my $data = $2;
-            if ($data =~ m/git:(.*).git/) {
-                $data = "<a href=\"http:$1\"> $data </a>";
+    my $name = param('name');
+    my $info_str = LWP::Simple::get("http://ecosystem-api.p6c.org/module/$name");
+    my $info = eval {
+        decode_json decode_utf8 $info_str;
+    };
+    # warn $@ if $@;
+
+    my @lines;
+    if ($info) {
+        for my $key (qw(author description)) {
+            if (my $value = $info->{$key}) {
+                push @lines, [ $key => $value ];
             }
-            push @$lines, [ $data_name, $data ];
+        }
+        if (my $source_url = $info->{'source-url'}) {
+            if ($source_url =~ m/git:(.*).git/) {
+                push @lines, [ 'source-url' => "<a href=\"https:$1\"> $source_url </a>" ];
+            }
         }
     }
-    $in->close;
+
     
     my ($project_hash, $dates, $report_date) = get_projects();
     my $project = $project_hash->{param('name')};
@@ -291,7 +301,7 @@ get '/project/:name' => sub {
         push @$runs, $line;
     }
 
-    template 'project' => { info => $lines,
+    template 'project' => { info => \@lines,
                             runs => $runs };
 };
 
