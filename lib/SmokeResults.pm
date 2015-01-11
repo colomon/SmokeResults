@@ -181,7 +181,7 @@ sub get_projects_report {
         # }
         # 
 
-        push $projects, $line;
+        push @$projects, $line;
     }
     
     my $key = [];
