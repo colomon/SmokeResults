@@ -227,7 +227,7 @@ sub grep_by_user {
 }
 
 get '/' => sub {
-    template 'index';
+    redirect '/report';
 };
 
 get '/report' => sub {
