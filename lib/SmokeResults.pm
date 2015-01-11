@@ -12,7 +12,7 @@ use GD;
 our $VERSION = '0.1';
 my $days_to_show = 14;
 my $rect_size    = 15;
-my $path = "/home/smoker/smoke-history";
+my $path = $ENV{SMOKE_HISTORY_PATH} // "$ENV{HOME}/smoke-history";
 
 my %color = (
     ok      => '<div class="smfok">✓</div>',
