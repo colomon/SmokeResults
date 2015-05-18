@@ -1,1 +1,3 @@
 This simple Dancer-based module powers http://smoke.perl6.org
+
+The script for generating the smoke results can be found at https://github.com/tadzik/emmentaler
