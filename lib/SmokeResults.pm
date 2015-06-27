@@ -192,7 +192,7 @@ sub get_projects_report {
     }
     
     my $key = [];
-    foreach my $k ("ok", "test", "build", "prereq", "black") {
+    foreach my $k ("ok", "test", "build", "prereq", "warnings", "black") {
         push @$key, [ 
             $color{$k}, 
             $explanation{$k}, 
