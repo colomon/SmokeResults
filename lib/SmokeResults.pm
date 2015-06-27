@@ -153,6 +153,10 @@ sub get_projects_report {
                     $color = $color{ok};
                     $count{$date}{ok}++;
                 }
+
+                if ($res->{warnings}) {
+                    $color = $color{warnings};
+                }
             }
             
             $count{$date}{black}++ if ($color eq $color{black});
