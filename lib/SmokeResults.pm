@@ -18,19 +18,21 @@ my $rect_size    = 15;
 my $path = $ENV{SMOKE_HISTORY_PATH} // "$ENV{HOME}/smoke-history";
 
 my %color = (
-    ok      => '<div class="smfok">✓</div>',
-    black   => '<div class="smfmissing">?</div>',
-    test    => '<div class="smftest">T</div>',
-    build   => '<div class="smfbuild">B</div>',
-    prereq  => '<div class="smfprereq">P</div>',
+    ok       => '<div class="smfok">✓</div>',
+    black    => '<div class="smfmissing">?</div>',
+    test     => '<div class="smftest">T</div>',
+    build    => '<div class="smfbuild">B</div>',
+    prereq   => '<div class="smfprereq">P</div>',
+    warnings => '<div class="smfwarn">W</div>',
 );
 
 my %explanation = (
-    ok      => 'Passes all tests',
-    black   => 'No info available',
-    test    => 'Tests fail',
-    build   => 'Build fails',
-    prereq  => 'Prerequisites failing',
+    ok       => 'Passes all tests',
+    black    => 'No info available',
+    test     => 'Tests fail',
+    build    => 'Build fails',
+    prereq   => 'Prerequisites failing',
+    warnings => 'Build/tests had warnings',
 );
 
 sub get_all_dates {
