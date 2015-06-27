@@ -149,13 +149,13 @@ sub get_projects_report {
                         last;
                     }
                 }
-                unless ($failed) {
-                    $color = $color{ok};
-                    $count{$date}{ok}++;
-                }
 
                 if ($res->{warnings}) {
                     $color = $color{warnings};
+                    $count{$date}{warnings}++;
+                } elsif (!$failed) {
+                    $color = $color{ok};
+                    $count{$date}{ok}++;
                 }
             }
             
