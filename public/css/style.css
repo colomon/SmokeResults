@@ -243,7 +243,11 @@ font-size: 10px;
     background-color: #990;
     color:            white;
 }
-.smfok, .smftest, .smfmissing, .smfbuild, .smfprereq {
+.smfwarn    , .smfwarn a      {
+    background-color: #ff8000;
+    color:            white;
+}
+.smfok, .smftest, .smfmissing, .smfbuild, .smfprereq, .smfwarn {
     text-align:         center;
     width:              30px;
     font-weight:        bold;
