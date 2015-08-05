@@ -1,5 +1,6 @@
 #!/bin/bash -l
 
+ulimit -v 4194304
 set -e
 perl --version
 PATH=$PATH:/home/smoker/.rakudobrew/bin
