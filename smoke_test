@@ -3,15 +3,16 @@
 ulimit -v 4194304
 set -e
 perl --version
-PATH=$PATH:/home/smoker/.rakudobrew/bin
+PATH=$PATH:/home/colomon/.rakudobrew/bin
+export PANDA_SUBMIT_TESTREPORTS=1
 rakudobrew build moar
-rakudobrew switch moar-HEAD
+rakudobrew switch moar-nom
 rakudobrew build-panda
 cd ~/emmentaler
-curl -O http://feather.perl6.nl:3000/projects.json
+curl -O http://ecosystem-api.p6c.org/projects.json
 ./smoker projects.json
 mv results.json ~/smoke-history/results-$(date +%Y%m%d).json
 cd ..
-scp ~/smoke-history/results-$(date +%Y%m%d).json smoke.perl6.org@smoke.perl6.org:smoke-history/
-tools/perl6-ecosystem-authors/bin/ecosystem-authors >~/smoke-history/authors
-scp ~/smoke-history/authors smoke.perl6.org@smoke.perl6.org:smoke-history/
+scp ~/smoke-history/results-$(date +%Y%m%d).json smoke.perl6.org@www.p6c.org:smoke-history/
+perl6-ecosystem-authors/bin/ecosystem-authors >~/smoke-history/authors
+scp ~/smoke-history/authors smoke.perl6.org@www.p6c.org:smoke-history/
