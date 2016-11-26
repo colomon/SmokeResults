@@ -9,7 +9,7 @@ perl:
 
 install:
     - sudo apt-get install libgd2-noxpm-dev
-    - cpanm Dancer Date::Simple GD YAML
+    - cpanm Dancer Date::Simple GD YAML Template
 
 script:
     prove -lr t
