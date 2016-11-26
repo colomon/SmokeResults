@@ -8,5 +8,5 @@ perl:
     - "5.20"
 
 install:
-    - sudo apt-get install libgd-dev
+    - sudo apt-get install libgd2-noxpm-dev
     - cpanm Dancer Date::Simple GD
