@@ -8,11 +8,11 @@ perl:
     - "5.20"
 
 install:
-    - sudo apt-get install libgd2-noxpm-dev
-    - cpanm Dancer Date::Simple GD YAML Template
-    - mkdir $HOME/smoke-history
-    - echo '"Module::For::Testing" => "Author Name"' > $HOME/smoke-history/authors
-    - echo '{ "Module::For::Testing": { "_statistics": { "compiler": "rakudo", "version": "2016.11.65.gbdc.7.a.91", "datetime": "2016-11-26T14:20:45.057041Z" }, "test": true, "build": true, "prereq": true, "warnings": false } } ' > $HOME/smoke-history/results-20161126.json
+    - "sudo apt-get install libgd2-noxpm-dev"
+    - "cpanm Dancer Date::Simple GD YAML Template"
+    - "mkdir $HOME/smoke-history"
+    - "echo \'\"Module::For::Testing\" => \"Author Name\"\' > $HOME/smoke-history/authors"
+    - "echo \'{ \"Module::For::Testing\": { \"_statistics\": { \"compiler\": \"rakudo\", \"version\": \"2016.11.65.gbdc.7.a.91\", \"datetime\": \"2016-11-26T14:20:45.057041Z\" }, \"test\": true, \"build\": true, \"prereq\": true, \"warnings\": false } }\' > $HOME/smoke-history/results-20161126.json"
 
 script:
     prove -lr t
